@@ -1,0 +1,25 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.button {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+}
+
+.hbox {
+    -fx-background-color: #333;
+    -fx-padding: 10;
+}
+
+.hbox .label {
+    -fx-text-fill: white;
+}

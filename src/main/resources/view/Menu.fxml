@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.fosdesktop.controller.MenuController">
+    <stylesheets>
+        <URL value="@menu-styles.css"/>
+    </stylesheets>
+
+    <HBox prefWidth="650" prefHeight="60" alignment="CENTER_RIGHT" style="-fx-background-color: #333; -fx-padding: 10;">
+        <Label text="Email: " fx:id="currentEmail" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+        <Button text="Logout"
+                onAction="#onLogout"
+                style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 14px;"/>
+    </HBox>
+
+    <VBox spacing="15" alignment="TOP_CENTER" prefWidth="650" prefHeight="800" style="-fx-padding: 20;">
+        <Label text="Menu" style="-fx-font-size: 20px; -fx-font-weight: bold; text-alignment: center;"/>
+
+        <!-- Drinks Section -->
+        <Label text="Drinks" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <VBox fx:id="drinkListVBox" spacing="10" style="-fx-background-color: #f4f4f4; -fx-padding: 10;"/>
+        <HBox alignment="CENTER" spacing="10">
+            <Button fx:id="btnPrevDrinks" text="prev" onAction="#prevPageDrinks"/>
+            <Label fx:id="lblDrinksPage" text="Page 1"/>
+            <Button fx:id="btnNextDrinks" text="next" onAction="#nextPageDrinks"/>
+        </HBox>
+
+        <!-- Meals Section -->
+        <Label text="Meals" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <VBox fx:id="mealListVBox" spacing="10" style="-fx-background-color: #f4f4f4; -fx-padding: 10;"/>
+        <HBox alignment="CENTER" spacing="10">
+            <Button fx:id="btnPrevMeals" text="prev" onAction="#prevPageMeals"/>
+            <Label fx:id="lblMealsPage" text="Page 1"/>
+            <Button fx:id="btnNextMeals" text="next" onAction="#nextPageMeals"/>
+        </HBox>
+
+        <!-- Desserts Section -->
+        <Label text="Desserts" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <VBox fx:id="dessertListVBox" spacing="10" style="-fx-background-color: #f4f4f4; -fx-padding: 10;"/>
+        <HBox alignment="CENTER" spacing="10">
+            <Button fx:id="btnPrevDesserts" text="prev" onAction="#prevPageDesserts"/>
+            <Label fx:id="lblDessertsPage" text="Page 1"/>
+            <Button fx:id="btnNextDesserts" text="next" onAction="#nextPageDesserts"/>
+        </HBox>
+
+        <!-- Order Section -->
+        <HBox alignment="CENTER" spacing="20" style="-fx-background-color: #f4f4f4; -fx-padding: 10;">
+            <Label fx:id="totalPriceLabel" text="Total Price: $0.0"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <Button fx:id="btnSubmitOrder" text="Order Now"
+                    style="-fx-background-color: blue; -fx-text-fill: white; -fx-padding: 10; -fx-font-size: 14px;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
+

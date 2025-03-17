@@ -1,0 +1,20 @@
+.root {
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.text-field, .password-field {
+    -fx-pref-width: 250px;
+    -fx-padding: 5px;
+}
+
+.button {
+    -fx-pref-width: 250px;
+    -fx-background-color: #393f81;
+    -fx-text-fill: white;
+}
