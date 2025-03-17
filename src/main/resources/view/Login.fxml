@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<?import java.net.URL?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.fosdesktop.controller.LoginController">
+    <stylesheets>
+        <URL value="@styles.css"/>
+    </stylesheets>
+
+    <HBox prefWidth="650" prefHeight="400">
+        <VBox>
+            <ImageView fitWidth="300" fitHeight="400">
+                <Image url="https://media.istockphoto.com/id/1277719288/photo/street-food-meat-cutlet-burgers-are-in-paper-boxes-food-delivery.jpg?s=612x612&amp;w=0&amp;k=20&amp;c=DFjDsXpSuR_y82U-D8a1rvZi85bcVs7n9-bafyP3YWc=" />
+            </ImageView>
+        </VBox>
+
+        <VBox alignment="CENTER" spacing="5" prefWidth="300">
+            <Label text="Food ordering system" styleClass="title"/>
+
+            <TextField fx:id="usernameField" promptText="Username"/>
+            <TextField fx:id="emailField" promptText="Email"/>
+            <PasswordField fx:id="passwordField" promptText="Password"/>
+            <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password"/>
+
+            <Button text="Register" onAction="#onRegister"/>
+
+            <Label text="Already have an account?" />
+            <Button text="Sign In" onAction="#onLogin"/>
+        </VBox>
+    </HBox>
+</AnchorPane>
