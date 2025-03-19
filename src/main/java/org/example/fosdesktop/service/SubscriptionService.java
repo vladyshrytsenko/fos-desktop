@@ -14,10 +14,6 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class SubscriptionService {
 
-    private final RestTemplate restTemplate;
-    private final StorageService storageService;
-    private final String BASE_URL = "http://localhost:8085/api/core/subscriptions";
-
     public SubscriptionDto create(SubscriptionDto subscription) {
         HttpEntity<SubscriptionDto> entity = new HttpEntity<>(subscription, createHeaders());
         ResponseEntity<SubscriptionDto> response = restTemplate.exchange(
@@ -33,4 +29,9 @@ public class SubscriptionService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         return headers;
     }
+
+    private final String BASE_URL = "http://localhost:8085/api/core/subscriptions";
+
+    private final RestTemplate restTemplate;
+    private final StorageService storageService;
 }

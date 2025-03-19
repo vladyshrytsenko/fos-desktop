@@ -14,10 +14,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DessertService {
 
-    private final RestTemplate restTemplate;
-    private final StorageService storageService;
-    private final String baseUrl = "http://localhost:8085/api/core/desserts";
-
     public DessertDto getById(Long id) {
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
         ResponseEntity<DessertDto> response = restTemplate.exchange(
@@ -72,4 +68,9 @@ public class DessertService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         return headers;
     }
+
+    private final String baseUrl = "http://localhost:8085/api/core/desserts";
+
+    private final RestTemplate restTemplate;
+    private final StorageService storageService;
 }

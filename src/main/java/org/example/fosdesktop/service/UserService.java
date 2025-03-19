@@ -22,11 +22,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final RestTemplate restTemplate;
-    private final StorageService storageService;
-    private final ObjectMapper objectMapper;
-    private final String BASE_URL = "http://localhost:8085/api/auth/users";
-
     public UserDto getById(Long id) {
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
 
@@ -131,4 +126,9 @@ public class UserService {
         }
     }
 
+    private final String BASE_URL = "http://localhost:8085/api/auth/users";
+
+    private final RestTemplate restTemplate;
+    private final StorageService storageService;
+    private final ObjectMapper objectMapper;
 }

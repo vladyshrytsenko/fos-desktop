@@ -1,6 +1,5 @@
 package org.example.fosdesktop.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.fosdesktop.model.dto.CuisineDto;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,12 +14,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CuisineService {
 
-    private final ObjectMapper objectMapper;
-
-    private final String BASE_URL = "http://localhost:8085/api/core/cuisines";
-
     public CuisineDto getById(Long id) {
-        HttpEntity<?> entity = new HttpEntity<>(createAuthHeaders());
+        HttpEntity<?> entity = new HttpEntity<>(createHeaders());
         ResponseEntity<CuisineDto> response = restTemplate.exchange(
             BASE_URL + "/" + id, HttpMethod.GET, entity, CuisineDto.class
         );
@@ -28,7 +23,7 @@ public class CuisineService {
     }
 
     public Map<String, Object> findAll() {
-        HttpEntity<?> entity = new HttpEntity<>(createAuthHeaders());
+        HttpEntity<?> entity = new HttpEntity<>(createHeaders());
 
         ResponseEntity<Map<String, Object>> response = this.restTemplate.exchange(
             BASE_URL, HttpMethod.GET, entity, new ParameterizedTypeReference<>() {}
@@ -38,7 +33,7 @@ public class CuisineService {
     }
 
     public CuisineDto create(CuisineDto cuisine) {
-        HttpEntity<CuisineDto> entity = new HttpEntity<>(cuisine, createAuthHeaders());
+        HttpEntity<CuisineDto> entity = new HttpEntity<>(cuisine, createHeaders());
         ResponseEntity<CuisineDto> response = restTemplate.exchange(
             BASE_URL, HttpMethod.POST, entity, CuisineDto.class
         );
@@ -46,7 +41,7 @@ public class CuisineService {
     }
 
     public CuisineDto updateById(Long id, CuisineDto cuisine) {
-        HttpEntity<CuisineDto> entity = new HttpEntity<>(cuisine, createAuthHeaders());
+        HttpEntity<CuisineDto> entity = new HttpEntity<>(cuisine, createHeaders());
         ResponseEntity<CuisineDto> response = restTemplate.exchange(
             BASE_URL + "/" + id, HttpMethod.PUT, entity, CuisineDto.class
         );
@@ -54,16 +49,19 @@ public class CuisineService {
     }
 
     public void deleteById(Long id) {
-        HttpEntity<?> entity = new HttpEntity<>(createAuthHeaders());
+        HttpEntity<?> entity = new HttpEntity<>(createHeaders());
         restTemplate.exchange(BASE_URL + "/" + id, HttpMethod.DELETE, entity, Void.class);
     }
 
-    private HttpHeaders createAuthHeaders() {
+    private HttpHeaders createHeaders() {
         String token = this.storageService.getJwtToken();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
         return headers;
     }
+
+    private final String BASE_URL = "http://localhost:8085/api/core/cuisines";
 
     private final RestTemplate restTemplate;
     private final StorageService storageService;

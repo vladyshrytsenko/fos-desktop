@@ -9,13 +9,6 @@ import java.util.prefs.Preferences;
 @Service
 public class StorageService {
 
-    private Preferences preferences;
-
-    @PostConstruct
-    public void init() {
-        this.preferences = Preferences.userNodeForPackage(StorageService.class);
-    }
-
     public String getItem(String key) {
         return preferences.get(key, null);
     }
@@ -26,6 +19,14 @@ public class StorageService {
 
     public void setJwtToken(String value) {
         setItem("jwtToken", value);
+    }
+
+    public void setTotalPrice(int value) {
+        preferences.putInt("totalPrice", value);
+    }
+
+    public int getTotalPrice() {
+        return preferences.getInt("totalPrice", 0);
     }
 
     public void removeItem(String key) {
@@ -39,4 +40,11 @@ public class StorageService {
     public void removeJwtToken() {
         removeItem("jwtToken");
     }
+
+    @PostConstruct
+    public void init() {
+        this.preferences = Preferences.userNodeForPackage(StorageService.class);
+    }
+
+    private Preferences preferences;
 }

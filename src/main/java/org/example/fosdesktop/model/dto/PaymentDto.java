@@ -17,11 +17,5 @@ public class PaymentDto {
     private String id;
     private String orderId;
     private Float totalPrice;
-    private PaymentStatus status;
-
-    enum PaymentStatus {
-        PAID,
-        PENDING,
-        FAILED
-    }
+    private String status;
 }
