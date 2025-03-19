@@ -14,10 +14,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private final RestTemplate restTemplate;
-    private final StorageService storageService;
-    private final String baseUrl = "http://localhost:8085/api/core/orders";
-
     public OrderDto getById(Long id) {
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
         ResponseEntity<OrderDto> response = restTemplate.exchange(
@@ -38,7 +34,7 @@ public class OrderService {
 
     public OrderDto create(OrderDto order) {
         HttpEntity<OrderDto> entity = new HttpEntity<>(order, createHeaders());
-        ResponseEntity<OrderDto> response = restTemplate.exchange(
+        ResponseEntity<OrderDto> response = this.restTemplate.exchange(
             baseUrl, HttpMethod.POST, entity, OrderDto.class
         );
         return response.getBody();
@@ -56,4 +52,9 @@ public class OrderService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         return headers;
     }
+
+    private final String baseUrl = "http://localhost:8085/api/core/orders";
+
+    private final RestTemplate restTemplate;
+    private final StorageService storageService;
 }

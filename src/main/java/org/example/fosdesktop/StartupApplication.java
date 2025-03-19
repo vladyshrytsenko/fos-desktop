@@ -26,6 +26,8 @@ public class StartupApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        stage.setTitle("FOS Desktop: Login");
+        stage.setResizable(false);
         primaryStage = stage;
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));

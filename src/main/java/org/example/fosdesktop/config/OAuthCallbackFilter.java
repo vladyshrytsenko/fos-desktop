@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import org.example.fosdesktop.StartupApplication;
 import org.example.fosdesktop.controller.MenuController;
@@ -15,6 +16,8 @@ import org.example.fosdesktop.service.AuthService;
 import org.example.fosdesktop.service.DessertService;
 import org.example.fosdesktop.service.DrinkService;
 import org.example.fosdesktop.service.MealService;
+import org.example.fosdesktop.service.OrderService;
+import org.example.fosdesktop.service.PaymentService;
 import org.example.fosdesktop.service.StorageService;
 import org.example.fosdesktop.service.UserService;
 import org.springframework.core.ParameterizedTypeReference;
@@ -37,20 +40,6 @@ import static java.util.Objects.*;
 @Component
 @RequiredArgsConstructor
 public class OAuthCallbackFilter implements Filter {
-
-    private static final String API_SERVER_URL = "http://localhost:8085";
-    private static final String CLIENT_ID = "client";
-    private static final String CLIENT_SECRET = "secret";
-    private static final String REDIRECT_URI = "http://localhost:8090/auth-callback";
-
-    private final RestTemplate restTemplate;
-    private final StorageService storageService;
-    private final DrinkService drinkService;
-    private final MealService mealService;
-    private final DessertService dessertService;
-    private final UserService userService;
-    private final AuthService authService;
-    private final ObjectMapper objectMapper;
 
     @Override
     public void doFilter(
@@ -84,6 +73,16 @@ public class OAuthCallbackFilter implements Filter {
             credentials.getBytes(StandardCharsets.UTF_8)
         );
 
+        String accessToken = this.getAccessToken(encodedCredentials, requestBody, tokenUrl);
+        this.storageService.setJwtToken(accessToken);
+        this.loadMenuScene();
+    }
+
+    private String getAccessToken(
+        String encodedCredentials,
+        String requestBody,
+        String tokenUrl) {
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.set("Authorization", "Basic " + encodedCredentials);
@@ -95,13 +94,11 @@ public class OAuthCallbackFilter implements Filter {
                 tokenUrl, HttpMethod.POST, entity, new ParameterizedTypeReference<>() {}
             );
             Map<String, Object> responseBody = response.getBody();
-            String accessToken = requireNonNull(responseBody).get("access_token").toString();
-
-            this.storageService.setJwtToken(accessToken);
-            loadMenuScene();
+            return requireNonNull(responseBody).get("access_token").toString();
         } catch (Exception e) {
-            System.err.println("Error exchanging code for token: " + e.getMessage());
+            e.printStackTrace();
         }
+        return null;
     }
 
     private void loadMenuScene() {
@@ -114,16 +111,37 @@ public class OAuthCallbackFilter implements Filter {
                     this.dessertService,
                     this.userService,
                     this.authService,
+                    this.orderService,
+                    this.paymentService,
+                    this.storageService,
                     this.objectMapper
                 ));
                 Parent root = loader.load();
                 Scene menuScene = new Scene(root);
 
-                StartupApplication.getPrimaryStage().setScene(menuScene);
-                StartupApplication.getPrimaryStage().show();
+                Stage primaryStage = StartupApplication.getPrimaryStage();
+                primaryStage.setTitle("FOS Desktop");
+                primaryStage.setScene(menuScene);
+                primaryStage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
+
+    private static final String API_SERVER_URL = "http://localhost:8085";
+    private static final String CLIENT_ID = "client";
+    private static final String CLIENT_SECRET = "secret";
+    private static final String REDIRECT_URI = "http://localhost:8090/auth-callback";
+
+    private final RestTemplate restTemplate;
+    private final StorageService storageService;
+    private final DrinkService drinkService;
+    private final MealService mealService;
+    private final DessertService dessertService;
+    private final UserService userService;
+    private final AuthService authService;
+    private final OrderService orderService;
+    private final PaymentService paymentService;
+    private final ObjectMapper objectMapper;
 }

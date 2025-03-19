@@ -5,60 +5,59 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import lombok.RequiredArgsConstructor;
 import org.example.fosdesktop.service.AuthService;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class LoginController {
-
-    public LoginController(AuthService authService) {
-        this.authService = authService;
-    }
 
     @FXML
     private void onRegister() {
-//        String email = emailField.getText();
-//        String username = usernameField.getText();
-//        String password = passwordField.getText();
-//        String confirmPassword = confirmPasswordField.getText();
-//
-//        if (username.isEmpty()
-//            || email.isEmpty()
-//            || password.isEmpty()
-//            || confirmPassword.isEmpty()) {
-//
-//            showAlert(Alert.AlertType.ERROR,
-//                "Error",
-//                "All fields are required!"
-//            );
-//            return;
-//        }
-//
-//        if (!password.equals(confirmPassword)) {
-//            this.showAlert(
-//                Alert.AlertType.ERROR,
-//                "Error",
-//                "Passwords do not match"
-//            );
-//            return;
-//        }
-//
-//        boolean success = this.authService.register(username, email, password);
-//
-//        if (success) {
-//            this.showAlert(
-//                Alert.AlertType.INFORMATION,
-//                "Success",
-//                "Registration was successful"
-//            );
-//            this.openBrowser(LOGIN_URL);
-//        } else {
-//            this.showAlert(
-//                Alert.AlertType.ERROR,
-//                "Registration error",
-//                "An error occurred while registering"
-//            );
-//        }
+        String email = this.emailField.getText();
+        String username = this.usernameField.getText();
+        String password = this.passwordField.getText();
+        String confirmPassword = this.confirmPasswordField.getText();
+
+        if (username.isEmpty()
+            || email.isEmpty()
+            || password.isEmpty()
+            || confirmPassword.isEmpty()) {
+
+            this.showAlert(
+                Alert.AlertType.ERROR,
+                "Error",
+                "All fields are required!"
+            );
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            this.showAlert(
+                Alert.AlertType.ERROR,
+                "Error",
+                "Passwords do not match"
+            );
+            return;
+        }
+
+        boolean success = this.authService.register(username, email, password);
+
+        if (success) {
+            this.showAlert(
+                Alert.AlertType.INFORMATION,
+                "Success",
+                "Registration was successful"
+            );
+            this.authService.login();
+        } else {
+            this.showAlert(
+                Alert.AlertType.ERROR,
+                "Registration error",
+                "An error occurred while registering"
+            );
+        }
     }
 
     @FXML
@@ -75,8 +74,6 @@ public class LoginController {
     }
 
     private final AuthService authService;
-
-    private String LOGIN_URL = "http://localhost:8085/login";
 
     @FXML
     private TextField usernameField, emailField;

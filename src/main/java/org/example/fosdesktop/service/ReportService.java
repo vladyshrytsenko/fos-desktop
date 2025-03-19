@@ -9,10 +9,6 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class ReportService {
 
-    private final RestTemplate restTemplate;
-    private final StorageService storageService;
-    private final String baseUrl = "http://localhost:8085/api/core/reports";
-
     public byte[] generateReport() {
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
         ResponseEntity<byte[]> response = restTemplate.exchange(
@@ -31,5 +27,10 @@ public class ReportService {
 
 //    byte[] report = reportService.generateReport();
 //    Files.write(Path.of("report.pdf"), report);
+
+    private final String baseUrl = "http://localhost:8085/api/core/reports";
+
+    private final RestTemplate restTemplate;
+    private final StorageService storageService;
 }
 

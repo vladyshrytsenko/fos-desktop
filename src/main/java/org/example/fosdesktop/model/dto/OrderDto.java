@@ -19,7 +19,7 @@ import java.util.Set;
 public class OrderDto {
 
     private Long id;
-    private Float totalPrice;
+    private Double totalPrice;
     private Set<DessertDto> desserts = new HashSet<>();
     private String dessertId;
     private Set<String> dessertNames = new HashSet<>();

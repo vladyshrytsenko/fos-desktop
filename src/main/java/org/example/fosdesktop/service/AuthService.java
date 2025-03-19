@@ -25,16 +25,6 @@ import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private static final String API_SERVER_URL = "http://localhost:8085";
-    private static final String REDIRECT_URI = "http://localhost:8090/auth-callback";
-    private static final String CLIENT_ID = "client";
-    private static final String CLIENT_SECRET = "secret";
-    private static final String AUTH_SERVER_URL = "http://localhost:8085/oauth2/authorize";
-
-    private final ObjectMapper objectMapper;
-    private final RestTemplate restTemplate;
-    private final StorageService storageService;
-
     public void login() {
         String encodedRedirectUri = URLEncoder.encode(REDIRECT_URI, StandardCharsets.UTF_8);
         String authUrl =
@@ -105,4 +95,14 @@ public class AuthService {
             }
         });
     }
+
+    private static final String API_SERVER_URL = "http://localhost:8085";
+    private static final String REDIRECT_URI = "http://localhost:8090/auth-callback";
+    private static final String CLIENT_ID = "client";
+    private static final String CLIENT_SECRET = "secret";
+    private static final String AUTH_SERVER_URL = "http://localhost:8085/oauth2/authorize";
+
+    private final ObjectMapper objectMapper;
+    private final RestTemplate restTemplate;
+    private final StorageService storageService;
 }
