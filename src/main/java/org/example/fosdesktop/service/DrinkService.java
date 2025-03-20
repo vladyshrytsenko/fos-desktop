@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -16,7 +17,7 @@ public class DrinkService {
 
     public DrinkDto getById(Long id) {
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
-        ResponseEntity<DrinkDto> response = restTemplate.exchange(
+        ResponseEntity<DrinkDto> response = this.restTemplate.exchange(
             baseUrl + "/" + id, HttpMethod.GET, entity, DrinkDto.class
         );
         return response.getBody();
@@ -24,7 +25,7 @@ public class DrinkService {
 
     public DrinkDto getByName(String name) {
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
-        ResponseEntity<DrinkDto> response = restTemplate.exchange(
+        ResponseEntity<DrinkDto> response = this.restTemplate.exchange(
             baseUrl + "/name/" + name, HttpMethod.GET, entity, DrinkDto.class
         );
         return response.getBody();
@@ -42,7 +43,7 @@ public class DrinkService {
 
     public DrinkDto create(DrinkDto drink) {
         HttpEntity<DrinkDto> entity = new HttpEntity<>(drink, createHeaders());
-        ResponseEntity<DrinkDto> response = restTemplate.exchange(
+        ResponseEntity<DrinkDto> response = this.restTemplate.exchange(
             baseUrl, HttpMethod.POST, entity, DrinkDto.class
         );
         return response.getBody();
@@ -50,7 +51,7 @@ public class DrinkService {
 
     public DrinkDto updateById(Long id, DrinkDto drink) {
         HttpEntity<DrinkDto> entity = new HttpEntity<>(drink, createHeaders());
-        ResponseEntity<DrinkDto> response = restTemplate.exchange(
+        ResponseEntity<DrinkDto> response = this.restTemplate.exchange(
             baseUrl + "/" + id, HttpMethod.PUT, entity, DrinkDto.class
         );
         return response.getBody();
@@ -58,7 +59,12 @@ public class DrinkService {
 
     public void deleteById(Long id) {
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
-        restTemplate.exchange(baseUrl + "/" + id, HttpMethod.DELETE, entity, Void.class);
+        this.restTemplate.exchange(baseUrl + "/" + id, HttpMethod.DELETE, entity, Void.class);
+    }
+
+    public void deleteAllById(List<Long> ids) {
+        HttpEntity<List<Long>> entity = new HttpEntity<>(ids, createHeaders());
+        this.restTemplate.exchange(baseUrl + "/delete", HttpMethod.DELETE, entity, Void.class);
     }
 
     private HttpHeaders createHeaders() {

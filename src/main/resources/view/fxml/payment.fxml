@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fosdesktop.controller.PaymentController">
+
+    <stylesheets>
+        <URL value="@../css/payment-styles.css"/>
+    </stylesheets>
+
+    <Label text="Enter Card Details"/>
+
+    <HBox spacing="10">
+        <Label text="Card Number:"/>
+        <TextField fx:id="cardNumberField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Exp Month (MM):"/>
+        <TextField fx:id="expMonthField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Exp Year (YY):"/>
+        <TextField fx:id="expYearField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="CVC:"/>
+        <TextField fx:id="cvcField"/>
+    </HBox>
+
+    <Button text="Pay Now" onAction="#onSubmitPayment"/>
+
+    <Label fx:id="messageLabel" text=""/>
+</VBox>

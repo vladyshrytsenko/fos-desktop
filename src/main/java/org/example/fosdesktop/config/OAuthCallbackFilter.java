@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.fosdesktop.StartupApplication;
 import org.example.fosdesktop.controller.MenuController;
 import org.example.fosdesktop.service.AuthService;
+import org.example.fosdesktop.service.CuisineService;
 import org.example.fosdesktop.service.DessertService;
 import org.example.fosdesktop.service.DrinkService;
 import org.example.fosdesktop.service.MealService;
@@ -104,7 +105,7 @@ public class OAuthCallbackFilter implements Filter {
     private void loadMenuScene() {
         Platform.runLater(() -> {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Menu.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/menu.fxml"));
                 loader.setControllerFactory(param -> new MenuController(
                     this.drinkService,
                     this.mealService,
@@ -112,6 +113,7 @@ public class OAuthCallbackFilter implements Filter {
                     this.userService,
                     this.authService,
                     this.orderService,
+                    this.cuisineService,
                     this.paymentService,
                     this.storageService,
                     this.objectMapper
@@ -142,6 +144,7 @@ public class OAuthCallbackFilter implements Filter {
     private final UserService userService;
     private final AuthService authService;
     private final OrderService orderService;
+    private final CuisineService cuisineService;
     private final PaymentService paymentService;
     private final ObjectMapper objectMapper;
 }
