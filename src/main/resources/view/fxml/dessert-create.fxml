@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fosdesktop.controller.DessertController">
+
+    <stylesheets>
+        <URL value="@../css/dessert-styles.css"/>
+    </stylesheets>
+
+    <HBox spacing="10">
+        <Label text="Name:" />
+        <TextField fx:id="dessertNameField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Price (USD):" />
+        <TextField fx:id="dessertPriceField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Portion Weight (g):" />
+        <TextField fx:id="dessertPortionWeightField"/>
+    </HBox>
+
+    <Button text="Create" onAction="#onCreate"/>
+
+    <Label fx:id="messageLabel" text=""/>
+</VBox>

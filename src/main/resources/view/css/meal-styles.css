@@ -1,0 +1,15 @@
+VBox {
+    -fx-padding: 20;
+    -fx-alignment: center;
+}
+
+Label {
+    -fx-font-size: 16px;
+}
+
+Button {
+    -fx-background-color: #0055DE;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+}

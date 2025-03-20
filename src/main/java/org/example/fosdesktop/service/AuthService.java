@@ -85,7 +85,7 @@ public class AuthService {
     private void loadLoginScene() {
         Platform.runLater(() -> {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/login.fxml"));
                 Scene loginScene = new Scene(loader.load());
 
                 StartupApplication.getPrimaryStage().setScene(loginScene);

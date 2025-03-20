@@ -8,7 +8,7 @@
 <?import java.net.URL?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.fosdesktop.controller.LoginController">
     <stylesheets>
-        <URL value="@styles.css"/>
+        <URL value="@../css/login-styles.css"/>
     </stylesheets>
 
     <HBox prefWidth="650" prefHeight="400">

@@ -30,7 +30,7 @@ public class StartupApplication extends Application {
         stage.setResizable(false);
         primaryStage = stage;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/login.fxml"));
         loader.setControllerFactory(param -> springContext.getBean(param));
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
