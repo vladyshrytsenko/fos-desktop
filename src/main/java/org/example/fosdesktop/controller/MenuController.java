@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
+import org.example.fosdesktop.StartupApplication;
 import org.example.fosdesktop.model.dto.DessertDto;
 import org.example.fosdesktop.model.dto.DrinkDto;
 import org.example.fosdesktop.model.dto.MealDto;
@@ -26,9 +27,13 @@ import org.example.fosdesktop.service.DrinkService;
 import org.example.fosdesktop.service.MealService;
 import org.example.fosdesktop.service.OrderService;
 import org.example.fosdesktop.service.PaymentService;
+import org.example.fosdesktop.service.ReportService;
 import org.example.fosdesktop.service.StorageService;
 import org.example.fosdesktop.service.UserService;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -128,31 +133,10 @@ public class MenuController {
         this.lblOrdersPage.setText((this.orderPage + 1) + "/" + totalPages);
     }
 
-    private <T> void toggleSelection(Label label, T item, Set<T> selectedSet) {
-        if (selectedSet.contains(item)) {
-            selectedSet.remove(item);
-            String labelText = label.getText().substring(2);
-            label.setText(labelText);
-            label.setStyle("");
-            this.totalPrice -= ((MenuItem) item).getPrice();
-        } else {
-            selectedSet.add(item);
-            label.setStyle("-fx-background-color: lightblue;");
-            label.setText("✅ " + label.getText());
-            this.totalPrice += ((MenuItem) item).getPrice();
-        }
-        switch (item) {
-            case DrinkDto ignored -> this.btnDeleteSelectedDrinks.setDisable(selectedSet.isEmpty());
-            case DessertDto ignored -> this.btnDeleteSelectedDesserts.setDisable(selectedSet.isEmpty());
-            default -> this.btnDeleteSelectedMeals.setDisable(selectedSet.isEmpty());
-        }
-        this.updateTotalPrice();
-    }
-
     private void updateTotalPrice() {
         int totalPriceInCents = (int) this.totalPrice * 100;
         this.storageService.setTotalPrice(totalPriceInCents);
-        this.totalPriceLabel.setText("Total Price: $" + new DecimalFormat("#.00").format(this.totalPrice));
+        this.totalPriceLabel.setText("Total Price: $" + new DecimalFormat("0.00").format(this.totalPrice));
     }
 
     private VBox createOrderCard(OrderDto order) {
@@ -193,9 +177,9 @@ public class MenuController {
         dessertCard.setStyle("-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #dcdcdc; -fx-border-radius: 5;");
 
         desserts.forEach(dessert -> {
-            Label dessertLabel = new Label(dessert.getName() + " - $" + new DecimalFormat("#.00").format(dessert.getPrice()));
-            dessertLabel.setOnMouseClicked(event -> this.toggleSelection(dessertLabel, dessert, this.order.getDesserts()));
-            dessertCard.getChildren().add(dessertLabel);
+            CheckBox dessertCheckBox = new CheckBox(dessert.getName() + " - $" + new DecimalFormat("0.00").format(dessert.getPrice()));
+            dessertCheckBox.setOnAction(event -> this.toggleSelection(dessertCheckBox, dessert, this.order.getDesserts()));
+            dessertCard.getChildren().add(dessertCheckBox);
         });
 
         return dessertCard;
@@ -207,9 +191,9 @@ public class MenuController {
         drinkCard.setStyle("-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #dcdcdc; -fx-border-radius: 5;");
 
         drinks.forEach(drink -> {
-            Label drinkLabel = new Label(drink.getName() + " - $" + new DecimalFormat("#.00").format(drink.getPrice()));
-            drinkLabel.setOnMouseClicked(event -> this.toggleSelection(drinkLabel, drink, this.order.getDrinks()));
-            drinkCard.getChildren().add(drinkLabel);
+            CheckBox drinkCheckBox = new CheckBox(drink.getName() + " - $" + new DecimalFormat("0.00").format(drink.getPrice()));
+            drinkCheckBox.setOnAction(event -> this.toggleSelection(drinkCheckBox, drink, this.order.getDrinks()));
+            drinkCard.getChildren().add(drinkCheckBox);
         });
 
         return drinkCard;
@@ -221,12 +205,30 @@ public class MenuController {
         mealCard.setStyle("-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #dcdcdc; -fx-border-radius: 5;");
 
         meals.forEach(meal -> {
-            Label mealLabel = new Label(meal.getName() + " - $" + new DecimalFormat("#.00").format(meal.getPrice()));
-            mealLabel.setOnMouseClicked(event -> this.toggleSelection(mealLabel, meal, this.order.getMeals()));
-            mealCard.getChildren().add(mealLabel);
+            CheckBox mealCheckBox = new CheckBox(meal.getName() + " - $" + new DecimalFormat("0.00").format(meal.getPrice()));
+            mealCheckBox.setOnAction(event -> this.toggleSelection(mealCheckBox, meal, this.order.getMeals()));
+            mealCard.getChildren().add(mealCheckBox);
         });
 
         return mealCard;
+    }
+
+    private <T> void toggleSelection(CheckBox checkBox, T item, Set<T> selectedSet) {
+        if (checkBox.isSelected()) {
+            selectedSet.add(item);
+            this.totalPrice += ((MenuItem) item).getPrice();
+        } else {
+            selectedSet.remove(item);
+            this.totalPrice -= ((MenuItem) item).getPrice();
+        }
+
+        switch (item) {
+            case DrinkDto ignored -> this.btnDeleteSelectedDrinks.setDisable(selectedSet.isEmpty());
+            case DessertDto ignored -> this.btnDeleteSelectedDesserts.setDisable(selectedSet.isEmpty());
+            default -> this.btnDeleteSelectedMeals.setDisable(selectedSet.isEmpty());
+        }
+
+        this.updateTotalPrice();
     }
 
     private void loadPaymentModal() {
@@ -343,6 +345,23 @@ public class MenuController {
         });
     }
 
+    private void loadLoginScene() {
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/login.fxml"));
+                loader.setControllerFactory(param -> new LoginController(this.authService));
+
+                Scene scene = new Scene(loader.load());
+                Stage stage = StartupApplication.getPrimaryStage();
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     @FXML
     private void showMenu() {
         this.menuContentVBox.setVisible(true);
@@ -392,7 +411,7 @@ public class MenuController {
         adminButtons
             .forEach(button -> button.setVisible(isAdmin));
 
-        String welcomeText = String.format("Welcome, %s (%s)", currentUser.getEmail(), currentUser.getRole());
+        String welcomeText = String.format("Welcome, %s (%s)", currentUser.getUsername(), currentUser.getRole());
         this.currentEmail.setText(welcomeText);
 
         this.loadMenu();
@@ -401,6 +420,11 @@ public class MenuController {
     @FXML
     private void onLogout() {
         this.authService.logout();
+
+        Stage currentStage = (Stage) this.btnLogout.getScene().getWindow();
+        currentStage.close();
+
+        this.loadLoginScene();
     }
 
     @FXML
@@ -466,6 +490,22 @@ public class MenuController {
     }
 
     @FXML
+    private void onGenReport() {
+        try {
+            byte[] bytes = this.reportService.generateReport();
+            File pdfFile = File.createTempFile("report", ".pdf");
+            try (FileOutputStream fos = new FileOutputStream(pdfFile)) {
+                fos.write(bytes);
+            }
+
+            Desktop.getDesktop().browse(pdfFile.toURI());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void nextPageDrinks() {
         this.drinkPage++;
         this.loadDrinks();
@@ -521,7 +561,7 @@ public class MenuController {
         }
     }
 
-    private int drinkPage = 0, mealPage = 0, dessertPage = 0, orderPage = 0;
+    private int drinkPage, mealPage, dessertPage, orderPage;
     private final int pageSize = 5;
 
     private OrderDto order = new OrderDto();
@@ -536,5 +576,6 @@ public class MenuController {
     private final CuisineService cuisineService;
     private final PaymentService paymentService;
     private final StorageService storageService;
+    private final ReportService reportService;
     private final ObjectMapper objectMapper;
 }

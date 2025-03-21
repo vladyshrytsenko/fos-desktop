@@ -1,11 +1,8 @@
 package org.example.fosdesktop.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import lombok.RequiredArgsConstructor;
-import org.example.fosdesktop.StartupApplication;
+
 import org.example.fosdesktop.model.dto.UserDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -45,12 +42,10 @@ public class AuthService {
     public void logout() {
         try {
             this.restTemplate.exchange(API_SERVER_URL + "/logout", HttpMethod.POST, null, String.class);
-            this.storageService.removeJwtToken();
-            clearCookies();
-            loadLoginScene();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        this.storageService.removeJwtToken();
     }
 
     public boolean register(String username, String email, String password) {
@@ -76,24 +71,6 @@ public class AuthService {
             e.printStackTrace();
         }
         return false;
-    }
-
-    private void clearCookies() {
-        System.setProperty("http.agent", "");
-    }
-
-    private void loadLoginScene() {
-        Platform.runLater(() -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/fxml/login.fxml"));
-                Scene loginScene = new Scene(loader.load());
-
-                StartupApplication.getPrimaryStage().setScene(loginScene);
-                StartupApplication.getPrimaryStage().show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     private static final String API_SERVER_URL = "http://localhost:8085";

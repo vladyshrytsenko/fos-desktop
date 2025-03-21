@@ -4,108 +4,92 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="org.example.fosdesktop.controller.MenuController">
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fosdesktop.controller.MenuController">
     <stylesheets>
         <URL value="@../css/menu-styles.css" />
     </stylesheets>
 
     <HBox prefHeight="60" prefWidth="650" style="-fx-background-color: #333; -fx-padding: 10;">
-        <HBox spacing="10">
+        <HBox>
             <Button onAction="#showMenu" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 18px;" text="Menu" />
             <Button onAction="#showHistory" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 18px;" text="History" />
+            <Button onAction="#onGenReport" prefHeight="42.0" prefWidth="116.0" style="-fx-background-color: #E3E6E4; -fx-text-fill: black; -fx-font-size: 16px; -fx-padding: 5;" text="Generate report" />
         </HBox>
 
         <Region HBox.hgrow="ALWAYS" />
 
         <HBox spacing="10">
             <Label fx:id="currentEmail" prefHeight="46.0" style="-fx-text-fill: white; -fx-font-size: 16px;" text="Email: " />
-            <Button onAction="#onLogout" style="-fx-background-color: #ff3333; -fx-text-fill: white; -fx-font-size: 14px;" text="Logout" />
+            <Button fx:id="btnLogout" onAction="#onLogout" style="-fx-background-color: #ff3333; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10;" text="Logout" />
         </HBox>
     </HBox>
 
-    <StackPane layoutY="60" prefHeight="800" prefWidth="650">
+    <StackPane layoutY="60" prefHeight="720" prefWidth="650">
         <VBox fx:id="menuContentVBox" alignment="TOP_CENTER" spacing="15" style="-fx-padding: 20;">
-            <VBox spacing="5" style="-fx-padding: 10; -fx-border-radius: 5;">
+            <VBox spacing="5">
 
                 <!-- Drinks Section -->
+                <BorderPane>
+                    <left>
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Drinks" />
+                    </left>
+                    <right>
+                        <HBox alignment="CENTER_RIGHT" spacing="10">
+                            <Button fx:id="btnPrevDrinks" onAction="#prevPageDrinks" style="-fx-padding: 5;" text="&lt;" />
+                            <Label fx:id="lblDrinksPage" text="1" />
+                            <Button fx:id="btnNextDrinks" onAction="#nextPageDrinks" style="-fx-padding: 5;" text="&gt;" />
+                        </HBox>
+                    </right>
+                </BorderPane>
                 <HBox alignment="CENTER_LEFT" spacing="10">
-                    <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Drinks" />
-                    <Button fx:id="btnCreateDrink"
-                            onAction="#onCreateDrink"
-                            text="Create"
-                            visible="false"
-                            style="-fx-font-size: 14px; -fx-background-color: #c1f0c1;"/>
-
-                    <Button fx:id="btnDeleteSelectedDrinks"
-                            onAction="#onDeleteSelectedDrinks"
-                            text="Delete selected"
-                            visible="false"
-                            disable="true"
-                            style="-fx-font-size: 14px; -fx-background-color: #ffb3b3;"/>
+                    <Button fx:id="btnCreateDrink" onAction="#onCreateDrink" style="-fx-font-size: 14px; -fx-background-color: #ccf2ff; -fx-padding: 5;" text="Create" visible="false" />
+                    <Button fx:id="btnDeleteSelectedDrinks" disable="true" onAction="#onDeleteSelectedDrinks" style="-fx-font-size: 14px; -fx-background-color: #ffb3b3; -fx-padding: 5;" text="Delete selected" visible="false" />
                 </HBox>
-                <VBox fx:id="drinkListVBox" spacing="10" style="-fx-background-color: #f4f4f4; -fx-padding: 10;" />
-                <HBox alignment="CENTER_RIGHT" spacing="10">
-                    <Button fx:id="btnPrevDrinks" onAction="#prevPageDrinks" text="&lt;" />
-                    <Label fx:id="lblDrinksPage" text="1" />
-                    <Button fx:id="btnNextDrinks" onAction="#nextPageDrinks" text="&gt;" />
-                </HBox>
+                <VBox fx:id="drinkListVBox" spacing="10" style="-fx-font-size: 14px; -fx-background-color: #f4f4f4; -fx-padding: 10;" />
 
                 <!-- Meals Section -->
+                <BorderPane>
+                    <left>
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Meals" />
+                    </left>
+                    <right>
+                        <HBox alignment="CENTER_RIGHT" spacing="10">
+                            <Button fx:id="btnPrevMeals" onAction="#prevPageMeals" style="-fx-padding: 5;" text="&lt;" />
+                            <Label fx:id="lblMealsPage" text="1" />
+                            <Button fx:id="btnNextMeals" onAction="#nextPageMeals" style="-fx-padding: 5;" text="&gt;" />
+                        </HBox>
+                    </right>
+                </BorderPane>
                 <HBox alignment="CENTER_LEFT" spacing="10">
-                    <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Meals" />
-                    <Button fx:id="btnCreateMeal"
-                            onAction="#onCreateMeal"
-                            text="Create"
-                            visible="false"
-                            style="-fx-font-size: 14px; -fx-background-color: #c1f0c1;"/>
-
-                    <Button fx:id="btnCreateCuisine"
-                            onAction="#onCreateCuisine"
-                            text="Create cuisine"
-                            visible="false"
-                            style="-fx-font-size: 14px; -fx-background-color: #c1f0c1;"/>
-
-                    <Button fx:id="btnDeleteSelectedMeals"
-                            onAction="#onDeleteSelectedMeals"
-                            text="Delete selected"
-                            visible="false"
-                            disable="true"
-                            style="-fx-font-size: 14px; -fx-background-color: #ffb3b3;"/>
+                    <Button fx:id="btnCreateMeal" onAction="#onCreateMeal" style="-fx-font-size: 14px; -fx-background-color: #ccf2ff; -fx-padding: 5;" text="Create" visible="false" />
+                    <Button fx:id="btnCreateCuisine" onAction="#onCreateCuisine" style="-fx-font-size: 14px; -fx-background-color: #ccf2ff; -fx-padding: 5;" text="Create cuisine" visible="false" />
+                    <Button fx:id="btnDeleteSelectedMeals" disable="true" onAction="#onDeleteSelectedMeals" style="-fx-font-size: 14px; -fx-background-color: #ffb3b3; -fx-padding: 5;" text="Delete selected" visible="false" />
                 </HBox>
-                <VBox fx:id="mealListVBox" spacing="10" style="-fx-background-color: #f4f4f4; -fx-padding: 10;" />
-                <HBox alignment="CENTER_RIGHT" spacing="10">
-                    <Button fx:id="btnPrevMeals" onAction="#prevPageMeals" text="&lt;" />
-                    <Label fx:id="lblMealsPage" text="1" />
-                    <Button fx:id="btnNextMeals" onAction="#nextPageMeals" text="&gt;" />
-                </HBox>
+                <VBox fx:id="mealListVBox" spacing="10" style="-fx-font-size: 14px; -fx-background-color: #f4f4f4; -fx-padding: 10;" />
 
                 <!-- Desserts Section -->
+                <BorderPane>
+                    <left>
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Desserts" />
+                    </left>
+                    <right>
+                        <HBox alignment="CENTER_RIGHT" spacing="10">
+                            <Button fx:id="btnPrevDesserts" onAction="#prevPageDesserts" style="-fx-padding: 5;" text="&lt;" />
+                            <Label fx:id="lblDessertsPage" text="1" />
+                            <Button fx:id="btnNextDesserts" onAction="#nextPageDesserts" style="-fx-padding: 5;" text="&gt;" />
+                        </HBox>
+                    </right>
+                </BorderPane>
                 <HBox alignment="CENTER_LEFT" spacing="10">
-                    <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Desserts" />
-                    <Button fx:id="btnCreateDessert"
-                            onAction="#onCreateDessert"
-                            text="Create"
-                            visible="false"
-                            style="-fx-font-size: 14px; -fx-background-color: #c1f0c1;"/>
-
-                    <Button fx:id="btnDeleteSelectedDesserts"
-                            onAction="#onDeleteSelectedDesserts"
-                            text="Delete selected"
-                            visible="false"
-                            disable="true"
-                            style="-fx-font-size: 14px; -fx-background-color: #ffb3b3;"/>
+                    <Button fx:id="btnCreateDessert" onAction="#onCreateDessert" style="-fx-font-size: 14px; -fx-background-color: #ccf2ff; -fx-padding: 5;" text="Create" visible="false" />
+                    <Button fx:id="btnDeleteSelectedDesserts" disable="true" onAction="#onDeleteSelectedDesserts" style="-fx-font-size: 14px; -fx-background-color: #ffb3b3; -fx-padding: 5;" text="Delete selected" visible="false" />
                 </HBox>
-                <VBox fx:id="dessertListVBox" spacing="10" style="-fx-background-color: #f4f4f4; -fx-padding: 10;" />
-                <HBox alignment="CENTER_RIGHT" spacing="10">
-                    <Button fx:id="btnPrevDesserts" onAction="#prevPageDesserts" text="&lt;" />
-                    <Label fx:id="lblDessertsPage" text="1" />
-                    <Button fx:id="btnNextDesserts" onAction="#nextPageDesserts" text="&gt;" />
-                </HBox>
+                <VBox fx:id="dessertListVBox" spacing="10" style="-fx-font-size: 14px; -fx-background-color: #f4f4f4; -fx-padding: 10;" />
             </VBox>
 
             <!-- Order Section -->
             <HBox alignment="CENTER_RIGHT" spacing="20" style="-fx-background-color: #f4f4f4; -fx-padding: 10;">
-                <Label fx:id="totalPriceLabel" style="-fx-font-size: 16x; -fx-font-weight: bold;" text="Total Price: $0.0" />
+                <Label fx:id="totalPriceLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Total Price: $0.0" />
                 <Button onAction="#onSubmitOrder" style="-fx-background-color: #3385ff; -fx-text-fill: white; -fx-padding: 10; -fx-font-size: 16px;" text="Order Now" />
             </HBox>
         </VBox>
@@ -118,10 +102,15 @@
                 <Button fx:id="btnNextOrders" onAction="#nextPageOrders" text="&gt;" />
             </HBox>
             <VBox fx:id="orderHistoryListVBox" spacing="10" style="-fx-background-color: #f4f4f4; -fx-padding: 10;">
-                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="500">
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="600">
                     <VBox fx:id="orderListVBox" spacing="10" style="-fx-background-color: #f4f4f4; -fx-padding: 10;" />
                 </ScrollPane>
             </VBox>
+        </VBox>
+
+        <VBox fx:id="reportContentVBox" alignment="TOP_CENTER" spacing="15" style="-fx-padding: 20;" visible="false">
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Order History" />
+            <Button fx:id="btnGenReport" onAction="#onGenReport" text="Generate" />
         </VBox>
     </StackPane>
 </AnchorPane>
