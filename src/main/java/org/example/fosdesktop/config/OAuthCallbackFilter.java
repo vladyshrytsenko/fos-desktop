@@ -19,6 +19,7 @@ import org.example.fosdesktop.service.DrinkService;
 import org.example.fosdesktop.service.MealService;
 import org.example.fosdesktop.service.OrderService;
 import org.example.fosdesktop.service.PaymentService;
+import org.example.fosdesktop.service.ReportService;
 import org.example.fosdesktop.service.StorageService;
 import org.example.fosdesktop.service.UserService;
 import org.springframework.core.ParameterizedTypeReference;
@@ -116,15 +117,20 @@ public class OAuthCallbackFilter implements Filter {
                     this.cuisineService,
                     this.paymentService,
                     this.storageService,
+                    this.reportService,
                     this.objectMapper
                 ));
                 Parent root = loader.load();
                 Scene menuScene = new Scene(root);
 
                 Stage primaryStage = StartupApplication.getPrimaryStage();
-                primaryStage.setTitle("FOS Desktop");
-                primaryStage.setScene(menuScene);
-                primaryStage.show();
+                primaryStage.close();
+
+                Stage stage = new Stage();
+                stage.setTitle("FOS Desktop");
+                stage.setScene(menuScene);
+                stage.setResizable(false);
+                stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -146,5 +152,6 @@ public class OAuthCallbackFilter implements Filter {
     private final OrderService orderService;
     private final CuisineService cuisineService;
     private final PaymentService paymentService;
+    private final ReportService reportService;
     private final ObjectMapper objectMapper;
 }
