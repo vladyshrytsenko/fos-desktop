@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
 import org.example.fosdesktop.model.dto.UserDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -73,11 +74,20 @@ public class AuthService {
         return false;
     }
 
-    private static final String API_SERVER_URL = "http://localhost:8085";
-    private static final String REDIRECT_URI = "http://localhost:8090/auth-callback";
-    private static final String CLIENT_ID = "client";
-    private static final String CLIENT_SECRET = "secret";
-    private static final String AUTH_SERVER_URL = "http://localhost:8085/oauth2/authorize";
+    @Value("${auth.api-server-url}")
+    private String API_SERVER_URL;
+
+    @Value("${auth.redirect-uri}")
+    private String REDIRECT_URI;
+
+    @Value("${auth.client-id}")
+    private String CLIENT_ID;
+
+    @Value("${auth.client-secret}")
+    private String CLIENT_SECRET;
+
+    @Value("${auth.server-url}")
+    private String AUTH_SERVER_URL;
 
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;

@@ -20,6 +20,7 @@ module org.example.fosdesktop {
     opens org.example.fosdesktop to javafx.fxml, spring.core, spring.context;
     opens org.example.fosdesktop.controller to javafx.fxml, spring.core, spring.beans, spring.context;
     opens org.example.fosdesktop.config to javafx.fxml, spring.core, spring.beans, spring.context;
+    opens org.example.fosdesktop.service to spring.core;
 
     exports org.example.fosdesktop;
     exports org.example.fosdesktop.model.dto;

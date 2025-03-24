@@ -1,6 +1,7 @@
 package org.example.fosdesktop.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +40,8 @@ public class PaymentService {
         return headers;
     }
 
-    private static final String BASE_URL = "http://localhost:8085/api/core/payments/create-payment-intent";
+    @Value("${payment.resource}")
+    private String BASE_URL;
 
     private final StorageService storageService;
     private final RestTemplate restTemplate;

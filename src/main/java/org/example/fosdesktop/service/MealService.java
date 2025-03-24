@@ -2,6 +2,7 @@ package org.example.fosdesktop.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.fosdesktop.model.dto.MealDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -75,7 +76,8 @@ public class MealService {
         return headers;
     }
 
-    private final String baseUrl = "http://localhost:8085/api/core/meals";
+    @Value("${meal.resource}")
+    private String baseUrl;
 
     private final RestTemplate restTemplate;
     private final StorageService storageService;
