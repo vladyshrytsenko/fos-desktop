@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.fosdesktop.model.dto.UserDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -126,7 +127,8 @@ public class UserService {
         }
     }
 
-    private final String BASE_URL = "http://localhost:8085/api/auth/users";
+    @Value("${user.resource}")
+    private String BASE_URL;
 
     private final RestTemplate restTemplate;
     private final StorageService storageService;

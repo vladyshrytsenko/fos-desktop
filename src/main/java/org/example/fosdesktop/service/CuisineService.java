@@ -2,6 +2,7 @@ package org.example.fosdesktop.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.fosdesktop.model.dto.CuisineDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class CuisineService {
 
     public CuisineDto getById(Long id) {
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
-        ResponseEntity<CuisineDto> response = restTemplate.exchange(
+        ResponseEntity<CuisineDto> response = this.restTemplate.exchange(
             BASE_URL + "/" + id, HttpMethod.GET, entity, CuisineDto.class
         );
         return response.getBody();
@@ -34,7 +35,7 @@ public class CuisineService {
 
     public CuisineDto create(CuisineDto cuisine) {
         HttpEntity<CuisineDto> entity = new HttpEntity<>(cuisine, createHeaders());
-        ResponseEntity<CuisineDto> response = restTemplate.exchange(
+        ResponseEntity<CuisineDto> response = this.restTemplate.exchange(
             BASE_URL, HttpMethod.POST, entity, CuisineDto.class
         );
         return response.getBody();
@@ -42,7 +43,7 @@ public class CuisineService {
 
     public CuisineDto updateById(Long id, CuisineDto cuisine) {
         HttpEntity<CuisineDto> entity = new HttpEntity<>(cuisine, createHeaders());
-        ResponseEntity<CuisineDto> response = restTemplate.exchange(
+        ResponseEntity<CuisineDto> response = this.restTemplate.exchange(
             BASE_URL + "/" + id, HttpMethod.PUT, entity, CuisineDto.class
         );
         return response.getBody();
@@ -50,7 +51,7 @@ public class CuisineService {
 
     public void deleteById(Long id) {
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
-        restTemplate.exchange(BASE_URL + "/" + id, HttpMethod.DELETE, entity, Void.class);
+        this.restTemplate.exchange(BASE_URL + "/" + id, HttpMethod.DELETE, entity, Void.class);
     }
 
     private HttpHeaders createHeaders() {
@@ -61,7 +62,8 @@ public class CuisineService {
         return headers;
     }
 
-    private final String BASE_URL = "http://localhost:8085/api/core/cuisines";
+    @Value("${cuisine.resource}")
+    private String BASE_URL;
 
     private final RestTemplate restTemplate;
     private final StorageService storageService;

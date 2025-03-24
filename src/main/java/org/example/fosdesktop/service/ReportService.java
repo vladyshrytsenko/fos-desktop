@@ -1,6 +1,7 @@
 package org.example.fosdesktop.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,8 +12,8 @@ public class ReportService {
 
     public byte[] generateReport() {
         HttpEntity<?> entity = new HttpEntity<>(createHeaders());
-        ResponseEntity<byte[]> response = restTemplate.exchange(
-            baseUrl, HttpMethod.POST, entity, byte[].class
+        ResponseEntity<byte[]> response = this.restTemplate.exchange(
+            BASE_URL, HttpMethod.POST, entity, byte[].class
         );
         return response.getBody();
     }
@@ -25,10 +26,8 @@ public class ReportService {
         return headers;
     }
 
-//    byte[] report = reportService.generateReport();
-//    Files.write(Path.of("report.pdf"), report);
-
-    private final String baseUrl = "http://localhost:8085/api/core/reports";
+    @Value("${payment.resource}")
+    private String BASE_URL;
 
     private final RestTemplate restTemplate;
     private final StorageService storageService;
